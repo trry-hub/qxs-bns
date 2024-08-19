@@ -1,0 +1,23 @@
+@use "mixins/mixins" as *;
+
+@include b(rich-editor) {
+  @include e(tiny-mce) {
+    .tox:not(.tox-tinymce-inline) {
+      border-width: 1px;
+      border-radius: var(--qxs-border-radius-base);
+
+      .tox-editor-header {
+        box-shadow: 0 2px 2px -2px rgb(34 47 62 / 10%), 0 4px 4px -4px rgb(34 47 62 / 7%);
+      }
+
+      .tox-sidebar-wrap {
+        max-height: 600px;
+        overflow-y: auto;
+      }
+    }
+
+    .tox-tinymce-aux {
+      z-index: 2500 !important;
+    }
+  }
+}

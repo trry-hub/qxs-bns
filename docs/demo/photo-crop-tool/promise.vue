@@ -1,0 +1,59 @@
+<script setup lang="ts">
+import type { UploadRawFile } from 'element-plus'
+import { QxsPhotoCropTool } from '../../../packages/components/src'
+
+const photoCropToolRef = ref()
+const imgUrl = ref()
+
+async function beforeUpload(file: UploadRawFile) {
+  try {
+    await ElMessageBox({
+      message: () => h(QxsPhotoCropTool, {
+        imgFile: file,
+        ref: e => photoCropToolRef.value = e,
+      }),
+      confirmButtonText: 'OK',
+      cancelButtonText: 'Cancel',
+    })
+    const cropFile = await photoCropToolRef.value.crop()
+    imgUrl.value = URL.createObjectURL(cropFile)
+    return cropFile
+  }
+  catch (error) {
+    console.log(error)
+    return false
+  }
+}
+
+async function crop() {
+  const file = await photoCropToolRef.value.crop()
+  imgUrl.value = URL.createObjectURL(file)
+}
+
+// 在组件卸载前释放对象 URL
+onBeforeUnmount(() => {
+  if (imgUrl.value) {
+    URL.revokeObjectURL(imgUrl.value)
+  }
+})
+</script>
+
+<template>
+  <div>
+    <el-upload
+      class="upload-demo"
+      action="https://run.mocky.io/v3/9d059bf9-4660-45f2-925d-ce80ad6c4d15"
+      :before-upload="beforeUpload"
+    >
+      <template #trigger>
+        <el-button type="primary">
+          select file
+        </el-button>
+      </template>
+    </el-upload>
+    <el-button @click="crop">
+      裁剪
+    </el-button>
+    <img :src="imgUrl" alt="">
+  </div>
+</template>
