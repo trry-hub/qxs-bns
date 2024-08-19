@@ -1,4 +1,4 @@
-<script setup lang="ts">
+<!-- <script setup lang="ts">
 import type { PropType } from 'vue'
 import { computed, onMounted, ref } from 'vue'
 import { useColorMode } from '@vueuse/core'
@@ -134,4 +134,21 @@ onMounted(() => {
   <div :class="[ns.e('tiny-mce')]">
     <TinymceEditor v-model="content" :init="defaultSetting" />
   </div>
+</template> -->
+
+<script setup lang="ts">
+import { onMounted, ref } from 'vue'
+
+const count = ref(0)
+onMounted(() => {
+  console.log(count.value)
+})
+</script>
+
+<template>
+  <div>{{ count }}</div>
 </template>
+
+<style lang="scss" scoped>
+
+</style>

@@ -60,8 +60,8 @@
 // @include css-var-from-global(('button', 'text-color'), ('color', $type))
 // --qxs-button-text-color: var(--qxs-color-#{$type});
 @mixin css-var-from-global($var, $gVar) {
-  $varName: joinvarname($var);
-  $gVarName: joinvarname($gVar);
+  $varName: joinVarName($var);
+  $gVarName: joinVarName($gVar);
 
   #{$varName}: var(#{$gVarName});
 }

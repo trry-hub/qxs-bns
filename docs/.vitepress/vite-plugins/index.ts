@@ -7,7 +7,8 @@ import createComponents from './components'
 export default function createVitePlugins(viteEnv, isBuild = false) {
   console.log(isBuild)
 
-  const vitePlugins: (PluginOption | PluginOption[])[] = [
+  const vitePlugins: PluginOption[] = [
+    // vue(),
   ]
   vitePlugins.push(...createAutoImport())
   vitePlugins.push(createComponents())

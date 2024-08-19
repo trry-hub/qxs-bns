@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import type { UploadRawFile } from 'element-plus'
+import { ElMessageBox } from 'element-plus'
 import { QxsPhotoCropTool } from '../../../packages/components/src'
 
 const photoCropToolRef = ref()
@@ -25,11 +26,6 @@ async function beforeUpload(file: UploadRawFile) {
   }
 }
 
-async function crop() {
-  const file = await photoCropToolRef.value.crop()
-  imgUrl.value = URL.createObjectURL(file)
-}
-
 // 在组件卸载前释放对象 URL
 onBeforeUnmount(() => {
   if (imgUrl.value) {
@@ -51,9 +47,6 @@ onBeforeUnmount(() => {
         </el-button>
       </template>
     </el-upload>
-    <el-button @click="crop">
-      裁剪
-    </el-button>
     <img :src="imgUrl" alt="">
   </div>
 </template>

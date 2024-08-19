@@ -31,7 +31,7 @@ export default {
           'selectortostring',
           'str-slice',
           'inspect',
-          'joinvarname',
+          'joinVarName',
           'if',
         ],
       },

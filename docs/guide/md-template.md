@@ -9,7 +9,7 @@ demo 是一个固定在底部的容器，常用于页面底部的按钮组。
 
 ### 示例
 
-<preview path="" title="demo" description="component description content"></preview>
+<!-- <preview path="" title="demo" description="component description content"></preview> -->
 
 ### 属性
 

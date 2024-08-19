@@ -9,8 +9,5 @@ declare module 'vue' {
   export interface GlobalComponents {
     ElButton: typeof import('element-plus/es')['ElButton']
     ElUpload: typeof import('element-plus/es')['ElUpload']
-    FixedActionBar: typeof import('./../packages/components/src/fixed-action-bar/src/fixed-action-bar.vue')['default']
-    PhotoCropTool: typeof import('./../packages/components/src/photo-crop-tool/src/photo-crop-tool.vue')['default']
-    RichEditor: typeof import('./../packages/components/src/rich-editor/src/rich-editor.vue')['default']
   }
 }

@@ -4,8 +4,7 @@ sider_text="photo-crop-tool"
 
 # photo-crop-tool
 
-demo 是一个固定在底部的容器，常用于页面底部的按钮组。
-已添加移动端 小白条适配
+photo-crop-tool 可以裁剪图片
 
 ### 示例
 
