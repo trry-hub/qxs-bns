@@ -9,10 +9,17 @@ const imgUrl = ref()
 async function beforeUpload(file: UploadRawFile) {
   try {
     await ElMessageBox({
-      message: () => h(QxsPhotoCropTool, {
-        imgFile: file,
-        ref: e => photoCropToolRef.value = e,
-      }),
+      message: () => h('div', {
+        style: {
+          width: '400px',
+          height: '300px',
+        },
+      }, [
+        h(QxsPhotoCropTool, {
+          imgFile: file,
+          ref: e => photoCropToolRef.value = e,
+        }),
+      ]),
       confirmButtonText: 'OK',
       cancelButtonText: 'Cancel',
     })
