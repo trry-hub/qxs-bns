@@ -2,8 +2,8 @@
 import { computed, onUnmounted, ref } from 'vue'
 import type { PropType } from 'vue'
 import { useNamespace } from '@qxs-bns/hooks'
-import { cropImageFile } from '@qxs-bns/utils'
 import { useDraggable, useElementSize } from '@vueuse/core'
+import { useCanvas } from './composables'
 
 defineOptions({
   name: 'QxsPhotoCropTool',
@@ -45,10 +45,6 @@ const ns = useNamespace('photo-crop-tool')
 const cropBoxRef = ref<HTMLElement | null>(null)
 const containerBoxRef = ref<HTMLElement | null>(null)
 const imgRef = ref<HTMLImageElement | null>(null)
-const imgInfo = ref({
-  originalWidth: 0,
-  originalHeight: 0,
-})
 
 const dargPoint = ref('')
 const cropInfo = ref({
@@ -70,7 +66,7 @@ const imageUrl = computed(() => {
 })
 
 const ratio = computed(() => {
-  return imgInfo.value.originalWidth / imgWidth.value
+  return (imgRef.value?.naturalWidth || 0) / imgWidth.value
 })
 
 const customStyle = computed(() => {
@@ -108,20 +104,20 @@ const sizeStyle = computed(() => {
   const { aspectRatio } = props
 
   const style: {
-    height?: string
-    width: string
-    aspectRatio?: string
-    top: string
-    left: string
+    'height'?: string
+    'width': string
+    'aspect-ratio'?: string
+    'top': string
+    'left': string
   } = {
-    width: `${cropInfo.value.width || props.defaultWidth}`,
-    height: `${cropInfo.value.height || props.defaultHeight}`,
-    aspectRatio,
-    top: `${customStyle.value.top}px`,
-    left: `${customStyle.value.left}px`,
+    'width': `${cropInfo.value.width || props.defaultWidth}`,
+    'height': `${cropInfo.value.height || props.defaultHeight}`,
+    'aspect-ratio': aspectRatio,
+    'top': `${customStyle.value.top}px`,
+    'left': `${customStyle.value.left}px`,
   }
   if (props.zoomType === 'free') {
-    delete style.aspectRatio
+    delete style['aspect-ratio']
   }
   else if (props.zoomType === 'fixed') {
     delete style.height
@@ -132,15 +128,18 @@ const sizeStyle = computed(() => {
 function zoom(pixel: number) {
   return pixel * ratio.value
 }
-async function crop(file: File = props.imgFile) {
-  console.log('props.imgFile: ', props.imgFile)
-  return cropImageFile(file, zoom(width.value), zoom(height.value), zoom(x.value), zoom(y.value), zoom(x.value + width.value), zoom(y.value + height.value))
-}
-
-// 获取图片原始信息
-function onImageLoad() {
-  imgInfo.value.originalWidth = imgRef.value?.naturalWidth || 0
-  imgInfo.value.originalHeight = imgRef.value?.naturalHeight || 0
+async function crop(img: HTMLImageElement = imgRef.value!) {
+  let backgroundColor = 'transparent'
+  if (containerBoxRef.value) {
+    backgroundColor = window.getComputedStyle(containerBoxRef.value).backgroundColor
+  }
+  const canvas = document.createElement('canvas')
+  canvas.width = zoom(containerBoxRef.value?.clientWidth || 0)
+  canvas.height = zoom(containerBoxRef.value?.clientHeight || 0)
+  const { drawImage, cropCanvas, drawColor } = useCanvas(canvas)
+  drawColor(0, 0, canvas.width, canvas.height, backgroundColor)
+  drawImage(img, zoom(img.offsetLeft), zoom(img.offsetTop), img.naturalWidth, img.naturalHeight)
+  return await cropCanvas(zoom(x.value), zoom(y.value), zoom(width.value), zoom(height.value))
 }
 
 function checkBoundaries(newWidth: number, newHeight: number): { width: number, height: number } {
@@ -297,28 +296,25 @@ defineExpose({
 </script>
 
 <template>
-  <div :class="[ns.e('box')]">
-    <div
-      ref="containerBoxRef"
-      :class="[ns.e('img-box')]"
+  <div
+    ref="containerBoxRef"
+    :class="[ns.e('img-box')]"
+  >
+    <img
+      ref="imgRef"
+      :class="[ns.e('image')]"
+      :src="imageUrl"
     >
-      <img
-        ref="imgRef"
-        :class="[ns.e('image')]"
-        :src="imageUrl"
-        @load="onImageLoad"
-      >
-      <div
-        v-if="imageUrl"
-        ref="cropBoxRef"
-        :class="[ns.e('crop-tool-box')]"
-        :style="[sizeStyle, dargPoint ? `left: ${customStyle.left}px;top: ${customStyle.top}px` : style]"
-      >
-        <div :class="[ns.e('top-left')]" @mousedown="mousedown($event, 'top-left')" />
-        <div :class="[ns.e('top-right')]" @mousedown="mousedown($event, 'top-right')" />
-        <div :class="[ns.e('bottom-right')]" @mousedown="mousedown($event, 'bottom-right')" />
-        <div :class="[ns.e('bottom-left')]" @mousedown="mousedown($event, 'bottom-left')" />
-      </div>
+    <div
+      v-if="imageUrl"
+      ref="cropBoxRef"
+      :class="[ns.e('crop-tool-box')]"
+      :style="[sizeStyle, dargPoint ? `left: ${customStyle.left}px;top: ${customStyle.top}px` : style]"
+    >
+      <div :class="[ns.e('top-left')]" @mousedown="mousedown($event, 'top-left')" />
+      <div :class="[ns.e('top-right')]" @mousedown="mousedown($event, 'top-right')" />
+      <div :class="[ns.e('bottom-right')]" @mousedown="mousedown($event, 'bottom-right')" />
+      <div :class="[ns.e('bottom-left')]" @mousedown="mousedown($event, 'bottom-left')" />
     </div>
   </div>
 </template>

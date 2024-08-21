@@ -37,7 +37,9 @@ onBeforeUnmount(() => {
         </el-button>
       </template>
     </el-upload>
-    <QxsPhotoCropTool ref="photoCropToolRef" :img-file="imgFile" />
+    <div style="width: 400px;height: 300px;">
+      <QxsPhotoCropTool ref="photoCropToolRef" :img-file="imgFile" />
+    </div>
     <el-button @click="crop">
       裁剪
     </el-button>
