@@ -44,9 +44,9 @@ function createPackageJson(outputPath: string) {
       'ui',
       'vue3',
     ],
-    homepage: 'https://your-homepage-url.com/',
+    homepage: 'https://trry-hub.github.io/qxs-bns/',
     bugs: {
-      url: 'https://github.com/your-repo/issues',
+      url: 'https://github.com/trry-hub/qxs-bns/issues',
     },
     license: 'MIT',
     main: 'lib/index.js',
@@ -70,7 +70,7 @@ function createPackageJson(outputPath: string) {
     },
     repository: {
       type: 'git',
-      url: 'git+https://github.com/your-repo.git',
+      url: 'https://github.com/trry-hub/qxs-bns',
     },
     publishConfig: {
       access: 'public',
