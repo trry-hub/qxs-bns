@@ -47,6 +47,10 @@ const containerBoxRef = ref<HTMLElement | null>(null)
 const imgRef = ref<HTMLImageElement | null>(null)
 
 const dargPoint = ref('')
+const initialValue = ref({
+  x: 0,
+  y: 0,
+})
 const cropInfo = ref({
   width: props.defaultWidth,
   height: props.defaultHeight,
@@ -98,6 +102,7 @@ const { x, y, style } = useDraggable(cropBoxRef, {
   draggingElement: cropBoxRef,
   disabled: computed(() => !!dargPoint.value),
   exact: true,
+  initialValue,
 })
 
 const sizeStyle = computed(() => {
@@ -281,6 +286,12 @@ function resize() {
 document.addEventListener('mouseup', mouseup)
 document.addEventListener('mousemove', mousemove)
 
+onMounted(() => {
+  // 初始化位置
+  initialValue.value.x = (containerBoxRef.value?.offsetWidth || 0) / 2 - width.value / 2
+  initialValue.value.y = (containerBoxRef.value?.offsetHeight || 0) / 2 - height.value / 2
+})
+
 onUnmounted(() => {
   if (imageUrl.value) {
     URL.revokeObjectURL(imageUrl.value)
@@ -306,7 +317,6 @@ defineExpose({
       :src="imageUrl"
     >
     <div
-      v-if="imageUrl"
       ref="cropBoxRef"
       :class="[ns.e('crop-tool-box')]"
       :style="[sizeStyle, dargPoint ? `left: ${customStyle.left}px;top: ${customStyle.top}px` : style]"
