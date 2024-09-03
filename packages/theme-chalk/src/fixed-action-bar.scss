@@ -6,12 +6,12 @@
     z-index: 10;
     padding: getCssVar("fixed-action-bar", "actionbar-padding");
     text-align: center;
-    background-color: var(--qxs-bg-color);
-    box-shadow: 0 0 1px 0 var(--qxs-border-color);
-    transition: box-shadow 0.3s, var(--qxs-transition-box-shadow);
+    background-color: var(--qxs-bg-color, #fff);
+    box-shadow: 0 0 1px 0 var(--qxs-border-color, #F3F3F2);
+    transition: box-shadow 0.3s, var(--qxs-transition-box-shadow,#F3F3F2);
 
     @include when(shadow) {
-      box-shadow: 0 -10px 10px -10px var(--qxs-border-color);
+      box-shadow: 0 -10px 10px -10px var(--qxs-border-color, #fff);
     }
   }
 }
