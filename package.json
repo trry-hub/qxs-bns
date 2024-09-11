@@ -17,6 +17,9 @@
   "files": [
     "dist"
   ],
+  "engines": {
+    "node": ">=20.13.0"
+  },
   "scripts": {
     "build": "gulp -f script/build/index.ts",
     "component:create": "esno ./utils/create/index.ts",

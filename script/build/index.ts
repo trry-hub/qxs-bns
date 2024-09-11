@@ -35,7 +35,7 @@ function createPackageJson(outputPath: string) {
 
   const packageJson = {
     name,
-    version: '0.0.0-dev.1',
+    version: '0.0.0-dev.5',
     description: 'A Component Library for Vue 3',
     keywords: [
       'vue',

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, onUnmounted, ref } from 'vue'
+import { computed, onMounted, onUnmounted, ref } from 'vue'
 import type { PropType } from 'vue'
 import { useNamespace } from '@qxs-bns/hooks'
 import { useDraggable, useElementSize } from '@vueuse/core'
@@ -61,6 +61,14 @@ const cropInfo = ref({
 const { width, height } = useElementSize(cropBoxRef)
 const { width: imgWidth } = useElementSize(imgRef)
 
+const { x, y, style } = useDraggable(cropBoxRef, {
+  containerElement: containerBoxRef,
+  draggingElement: cropBoxRef,
+  disabled: computed(() => !!dargPoint.value),
+  exact: true,
+  initialValue,
+})
+
 const imageUrl = computed(() => {
   // blob 转 base64
   if (!props.imgFile) {
@@ -95,14 +103,6 @@ const customStyle = computed(() => {
     position.top = cropInfo.value.y
   }
   return position
-})
-
-const { x, y, style } = useDraggable(cropBoxRef, {
-  containerElement: containerBoxRef,
-  draggingElement: cropBoxRef,
-  disabled: computed(() => !!dargPoint.value),
-  exact: true,
-  initialValue,
 })
 
 const sizeStyle = computed(() => {
@@ -287,9 +287,11 @@ document.addEventListener('mouseup', mouseup)
 document.addEventListener('mousemove', mousemove)
 
 onMounted(() => {
-  // 初始化位置
-  initialValue.value.x = (containerBoxRef.value?.offsetWidth || 0) / 2 - width.value / 2
-  initialValue.value.y = (containerBoxRef.value?.offsetHeight || 0) / 2 - height.value / 2
+  nextTick(() => {
+    // 初始化位置
+    initialValue.value.x = (containerBoxRef.value?.offsetWidth || 0) / 2 - cropInfo.value.width / 2
+    initialValue.value.y = (containerBoxRef.value?.offsetHeight || 0) / 2 - cropInfo.value.height / 2
+  })
 })
 
 onUnmounted(() => {
