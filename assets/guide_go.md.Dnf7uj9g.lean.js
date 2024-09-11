@@ -1,0 +1,1 @@
+import{ax as s,q as a,p as n,aQ as e}from"./chunks/framework.sJGiPiD7.js";const b=JSON.parse('{"title":"开发攻略","description":"","frontmatter":{},"headers":[],"relativePath":"guide/go.md","filePath":"guide/go.md"}'),p={name:"guide/go.md"},t=e("",12),l=[t];function c(i,o,d,r,u,h){return n(),a("div",null,l)}const g=s(p,[["render",c]]);export{b as __pageData,g as default};
