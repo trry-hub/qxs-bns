@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, onMounted, onUnmounted, ref } from 'vue'
+import { computed, nextTick, onMounted, onUnmounted, ref } from 'vue'
 import type { PropType } from 'vue'
 import { useNamespace } from '@qxs-bns/hooks'
 import { useDraggable, useElementSize } from '@vueuse/core'
