@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { onBeforeUnmount, ref } from 'vue'
 import type { UploadFile } from 'element-plus'
 
 const imgFile = ref<File | null>(null)

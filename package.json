@@ -10,7 +10,6 @@
     "Vue3",
     "ui"
   ],
-  "exports": {},
   "main": "dist/qxs-bns/lib/index.js",
   "module": "dist/qxs-bns/es/index.js",
   "types": "dist/qxs-bns/lib/index.d.ts",
@@ -33,7 +32,8 @@
     "lint:tsc": "vue-tsc",
     "lint:eslint": "eslint . --cache --fix",
     "lint:stylelint": "stylelint \"packages/**/*.{css,scss,vue}\" --cache --fix",
-    "rm": "rm -rf **/node_modules"
+    "rm": "rm -rf **/node_modules",
+    "publish": "cd ./dist && npm publish"
   },
   "dependencies": {
     "@qxs-bns/hooks": "workspace:*",

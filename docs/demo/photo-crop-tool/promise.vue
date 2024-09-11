@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { h, onBeforeUnmount, ref } from 'vue'
 import type { UploadRawFile } from 'element-plus'
 import { ElMessageBox } from 'element-plus'
 import { QxsPhotoCropTool } from '../../../packages/components/src'
